@@ -11,11 +11,12 @@ class Database_todo {
   void _initialize_db() async {
     var databasePath = await getDatabasesPath();
     String path = join(databasePath, 'todoList.db');
+   // await deleteDatabase(path);
     _database = await openDatabase(
       path,
       onCreate: (Database db, int version) async {
         await db.execute(
-            'CREATE TABLE tasks (task_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, isDone INTEGER)');
+            'CREATE TABLE tasks (task_id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR, isDone INTEGER)');
       },
       version: 1,
     );
@@ -31,6 +32,7 @@ class Database_todo {
   }
 
   Future getTasks() async{
+    await _initialize_db();
     List<Task> task_list = [];
      final List<Map<String, dynamic>> maps = await _database.query('tasks');
      for(Map map in maps){
@@ -41,5 +43,9 @@ class Database_todo {
        task_list.add(Task(title: map['title'], isDone: isDone));
      }
      return task_list;
+  }
+
+  Future deleteItem(Task task) async{
+      await _database.delete('tasks', where: "title ='${task.title}'");
   }
 }

@@ -7,6 +7,7 @@ import 'package:todo_list/modals/task_list_modal.dart';
 main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+ 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<Task_List_Modal>(
