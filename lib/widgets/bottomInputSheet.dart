@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/modals/task_list_modal.dart';
+import 'package:provider/provider.dart';
+
 
 class BottomInputSheet extends StatelessWidget {
+  String newTask = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,9 +25,15 @@ class BottomInputSheet extends StatelessWidget {
           Spacer(flex:1),
           TextField(textAlign: TextAlign.center, 
           autofocus: true,
+          onChanged: (newValue){
+            newTask = newValue;
+          },
           ),
           Spacer(flex:1),
-          FlatButton(color: Colors.lightBlueAccent, onPressed: (){}, child: Text("Add", style: TextStyle(color: Colors.white, fontSize: 20),),),
+          FlatButton(color: Colors.lightBlueAccent, onPressed: (){
+            Provider.of<Task_List_Modal>(context, listen: false).addTask(newTask);
+            Navigator.pop(context);
+          }, child: Text("Add", style: TextStyle(color: Colors.white, fontSize: 20),),),
          // Spacer(flex:12),
         ],),
     );
