@@ -4,25 +4,27 @@ import 'package:todo_list/widgets/taskTile.dart';
 import 'package:todo_list/modals/taks.dart';
 import 'package:todo_list/modals/task_list_modal.dart';
 
-
-class TaskList extends StatefulWidget {
-  @override
-  _TaskListState createState() => _TaskListState();
-}
-
-class _TaskListState extends State<TaskList> {
+class TaskList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: Provider.of<Task_List_Modal>(context).tasks.length,
-        itemBuilder: (context, index) => TaskTile(
-              taskName: Provider.of<Task_List_Modal>(context).tasks[index].title,
-              isChecked:Provider.of<Task_List_Modal>(context).tasks[index].isDone,
-              checkBoxCallback: (checkboxState){
-                setState(() {
-                  Provider.of<Task_List_Modal>(context, listen: false).tasks[index].toggleDone();
-                });
-              },
-            ));
+    return Consumer<Task_List_Modal>(
+      builder: (context, taskList, child) {
+        return ListView.builder(
+            itemCount: taskList.taskCount,
+            itemBuilder: (context, index) {
+              final task = taskList.tasks[index];
+              return TaskTile(
+                taskName: task.title,
+                isChecked: task.isDone,
+                checkBoxCallback: (checkboxState) {
+                  taskList.updateTask(task);
+                },
+                deleteCallback: (){
+                  taskList.deleteTask(task);
+                },
+              );
+            });
+      },
+    );
   }
 }

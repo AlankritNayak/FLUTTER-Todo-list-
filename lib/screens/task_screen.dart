@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/widgets/taskList.dart';
 import 'package:todo_list/widgets/bottomInputSheet.dart';
 import 'package:todo_list/modals/task_list_modal.dart';
+import 'package:provider/provider.dart';
 
 
 class Task_Screen extends StatelessWidget {
  
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return
     // ChangeNotifierProvider<Task_List_Modal>(
       //    create: (context)=> Task_List_Modal(),
@@ -73,7 +74,7 @@ class Task_Screen extends StatelessWidget {
                     Spacer(flex: 1),
                     Expanded(
                       child: Text(
-                        '${Task_List_Modal().tasks.length} Tasks',
+                        '${Provider.of<Task_List_Modal>(context).taskCount} Tasks',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
